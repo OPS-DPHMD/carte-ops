@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Carte OPS — DR Hassi Messaoud</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif}
+body{background:#e8e8e8;padding:12px;min-height:100vh}
+h2{background:#006633;color:#fff;padding:10px;font-size:13px;text-align:center;border-radius:6px 6px 0 0;line-height:1.5}
+h2 small{color:#ccffcc;font-size:11px}
+form{background:#fff;border-radius:0 0 6px 6px;padding:12px}
+.r{margin-bottom:9px}
+label{display:block;font-size:11px;color:#004d26;font-weight:700;margin-bottom:2px}
+.ar{font-size:10px;color:#888;direction:rtl;display:block;font-weight:400}
+input,textarea{width:100%;border:1px solid #bbb;border-radius:4px;padding:6px;font-size:13px}
+textarea{height:60px;resize:vertical}
+button{width:100%;background:#F08A01;color:#fff;border:0;padding:12px;border-radius:4px;font-size:15px;font-weight:700;margin-top:8px;cursor:pointer}
+button:active{background:#d07700}
+.footer{text-align:center;font-size:10px;color:#999;margin-top:10px}
+</style>
+
+<h2>DR Hassi Messaoud — Carte OPS<br><small>Observer Pour Sécuriser · ملاحظة من أجل التأمين</small></h2>
+
+<form id="F">
+  <div class="r">
+    <label>Date <span class="ar">تاريخ الملاحظة</span></label>
+    <input id="d" type="date">
+  </div>
+  <div class="r">
+    <label>Heure <span class="ar">توقيت الملاحظة</span></label>
+    <input id="h" type="time">
+  </div>
+  <div class="r">
+    <label>Lieu <span class="ar">مكان الملاحظة</span></label>
+    <input id="l" placeholder="Ex: Zone pompes P-204">
+  </div>
+  <div class="r">
+    <label>Détail de l'observation <span class="ar">تفصيل الملاحظة</span></label>
+    <textarea id="t" placeholder="Décrire ce qui a été observé..."></textarea>
+  </div>
+  <div class="r">
+    <label>Actions immédiates <span class="ar">الإجراءات الفورية</span></label>
+    <textarea id="c" placeholder="Actions déjà prises sur place..."></textarea>
+  </div>
+  <div class="r">
+    <label>Actions correctives <span class="ar">الإجراءات التصحيحية</span></label>
+    <textarea id="a" placeholder="Actions à planifier..."></textarea>
+  </div>
+  <div class="r">
+    <label>Observateur <span class="ar">الملاحظ</span></label>
+    <input id="o" placeholder="Nom et prénom">
+  </div>
+  <div class="r">
+    <label>Sonatrach / Direction <span class="ar">سوناطراك / المديرية</span></label>
+    <input id="s" placeholder="Ex: DR Hassi Messaoud">
+  </div>
+  <div class="r">
+    <label>Entreprise <span class="ar">شركة أخرى</span></label>
+    <input id="e" placeholder="Si sous-traitant">
+  </div>
+  <div class="r">
+    <label>Téléphone <span class="ar">رقم الهاتف</span></label>
+    <input id="p" type="tel" placeholder="0770...">
+  </div>
+  <button onclick="go(event)">📧 Envoyer la Carte OPS</button>
+</form>
+
+<div class="footer">Sonatrach · HSE · DR Hassi Messaoud</div>
+
+<script>
+!function(){
+  var n=new Date,z=function(v){return String(v).padStart(2,"0")};
+  document.getElementById("d").value=n.getFullYear()+"-"+z(n.getMonth()+1)+"-"+z(n.getDate());
+  document.getElementById("h").value=z(n.getHours())+":"+z(n.getMinutes());
+}();
+
+function G(i){return document.getElementById(i).value.trim()}
+
+function go(e){
+  e.preventDefault();
+  var lieu=G("l"), date=G("d");
+  var body=
+    "CARTE OPS\n"+
+    "DR Hassi Messaoud — Sonatrach\n"+
+    "━━━━━━━━━━━━━━━━━━━━━━━━\n\n"+
+    "Date        : "+date+"\n"+
+    "Heure       : "+G("h")+"\n"+
+    "Lieu        : "+lieu+"\n"+
+    "Observateur : "+G("o")+"\n"+
+    "Direction   : "+G("s")+"\n"+
+    "Entreprise  : "+G("e")+"\n"+
+    "Téléphone   : "+G("p")+"\n\n"+
+    "OBSERVATION :\n"+G("t")+"\n\n"+
+    "ACTIONS IMMÉDIATES :\n"+G("c")+"\n\n"+
+    "ACTIONS CORRECTIVES :\n"+G("a");
+  location.href="mailto:hse@sonatrach.dz"+
+    "?subject="+encodeURIComponent("Carte OPS - "+lieu+" - "+date)+
+    "&body="+encodeURIComponent(body);
+}
+</script>
+</html>
